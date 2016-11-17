@@ -1,0 +1,19 @@
+Steps:
+
+1. Make sure you have pip and python installed on your machine.
+	+ Add pip to your path
+	+ In control panel go to Edit Environment Variables
+	+ Edit>New> add C:\Python27\Scripts
+	+ Use Python34 if you run 3.4.3
+2. use pip to install packages
+	+ sckit-learn
+	+ pandas
+	+ numpy-mkl
+	+ scipy
+3. Install Graphviz 
+	+ Add graphviz to your path
+	+ C:\Program Files (x86)\Graphviz2.38\bin 
+4. Run the python script
+	+ python analyze_dt.py
+5. View the pdf of the decision tree
+	
