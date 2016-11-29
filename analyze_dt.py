@@ -160,7 +160,7 @@ if __name__ == '__main__':
     y = df["Rating"]
     X = df[features]
 
-    dt = DecisionTreeClassifier(criterion="gini", min_samples_split=20, random_state=99)
+    dt = DecisionTreeClassifier(criterion="entropy", min_samples_split=20, random_state=99)
     dt.fit(X, y)
 
     print("\n-- get_code:")
