@@ -94,6 +94,7 @@ def encode_target(df, target_column):
     df_mod = df.copy()
     targets = df_mod[target_column].unique()
     map_to_int = {name: n for n, name in enumerate(targets)}
+    print ("Map to int for " + target_column + ":", map_to_int, sep="\n", end="\n\n")
     df_mod[target_column] = df_mod[target_column].replace(map_to_int)
 
     return (df_mod, targets)
@@ -124,9 +125,11 @@ if __name__ == '__main__':
 
     print("\n-- df.head():")
     print(df.head(), end="\n\n")
+    print("\n-- df.tail():")
     print(df.tail(), end="\n\n")
-    print("* Rating types:", df["Rating"].unique(), sep="\n")
+    print("* Rating types:", df["Rating"].unique(), sep="\n", end="\n\n")
     features = ["CarPrice", "MaintCost", "NumDoors", "NumPersons", "TrunkSize", "Safety"]
+    print("* Encoding features:")
     df, targets = encode_target(df, "CarPrice")
     df, targets = encode_target(df, "MaintCost")
     df, targets = encode_target(df, "NumDoors")
@@ -134,19 +137,20 @@ if __name__ == '__main__':
     df, targets = encode_target(df, "TrunkSize")
     df, targets = encode_target(df, "Safety")
     df, targets = encode_target(df, "Rating")
-    print(df.head(), end="\n\n")
-    print(df.tail(), end="\n\n")
+    print("* df.head() encoded", df.head(), sep="\n", end="\n\n")
+    print("* df.tail() encoded", df.tail(), sep="\n", end="\n\n")
+    print("* targets", targets, sep="\n", end="\n\n")
     y = df["Rating"]
     X = df[features]
 
-    dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
+    dt = DecisionTreeClassifier(criterion="gini", min_samples_split=20, random_state=99)
     dt.fit(X, y)
 
     print("\n-- get_code:")
     get_code(dt, features, targets)
 
-    #print("\n-- look back at original data using pandas")
-    #print("-- df[df['Safety'] <= 2.45]]['Rating'].unique(): ",
+    # print("\n-- look back at original data using pandas")
+    # print("-- df[df['Safety'] <= 2.45]]['Rating'].unique(): ",
     #      df[df['Safety'] <= 2.45]['Rating'].unique(), end="\n\n")
 
     visualize_tree(dt, features)
