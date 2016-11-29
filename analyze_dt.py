@@ -77,6 +77,20 @@ def visualize_tree(tree, feature_names):
     except:
         exit("Could not run dot, ie graphviz, to produce visualization")
 
+def order_features_by_target_column(target_column):
+    if (target_column == "CarPrice" or target_column == "MaintCost"):
+        return ['low', 'med', 'high', 'vhigh']
+    elif (target_column == "NumDoors"):
+        return ['2', '3', '4', 'more']
+    elif (target_column == "NumPersons"):
+        return ['2', '4', 'more']
+    elif (target_column == "TrunkSize"):
+        return ['small', 'med', 'big']
+    elif (target_column == "Safety"):
+        return ['low', 'med', 'high']
+    else: # Case of Rating:
+        return ['bad', 'acc', 'good', 'excl']
+
 
 def encode_target(df, target_column):
     """Add column to df with integers for the target.
@@ -92,9 +106,12 @@ def encode_target(df, target_column):
     targets -- list of target names.
     """
     df_mod = df.copy()
-    targets = df_mod[target_column].unique()
+    #targets = df_mod[target_column].unique()
+    targets = order_features_by_target_column(target_column)
+    # print (targets)
+
     map_to_int = {name: n for n, name in enumerate(targets)}
-    print ("Map to int for " + target_column + ":", map_to_int, sep="\n", end="\n\n")
+    # print ("Map to int for " + target_column + ":", map_to_int, sep="\n", end="\n\n")
     df_mod[target_column] = df_mod[target_column].replace(map_to_int)
 
     return (df_mod, targets)
@@ -129,7 +146,7 @@ if __name__ == '__main__':
     print(df.tail(), end="\n\n")
     print("* Rating types:", df["Rating"].unique(), sep="\n", end="\n\n")
     features = ["CarPrice", "MaintCost", "NumDoors", "NumPersons", "TrunkSize", "Safety"]
-    print("* Encoding features:")
+    # print("* Encoding features:")
     df, targets = encode_target(df, "CarPrice")
     df, targets = encode_target(df, "MaintCost")
     df, targets = encode_target(df, "NumDoors")
